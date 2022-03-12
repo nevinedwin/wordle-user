@@ -1,13 +1,53 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+body{
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+  font-size: 1.5em;
+  font-family: 'Courier New', Courier, monospace;
+  transition: ease-in-out 0.2s;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.app-container{
+  width: 100%;
+  height: 100vh;
+}
+.m-10{
+  margin-bottom: 20px;
+}
+
+.login-container{
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 10%;
+  background-color: lightyellow;
+}
+
+.textField{
+  width: 500px;
+}
+
+
+.login-heading{
+  margin-bottom: 100px;
+}
+.otp-button{
+  width: 250px;
+}
+
+
+@media (max-width : 770px) {
+  .textField{
+    width: 250px;
+  }
+
+  .login-heading{
+    margin-bottom: 80px;
+  }
+  .otp-button{
+    width: 150px;
+  }
 }
