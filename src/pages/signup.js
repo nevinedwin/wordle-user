@@ -2,9 +2,11 @@ import React, { useState } from 'react'
 import { InputText } from 'primereact/inputtext'
 import { Button } from 'primereact/button'
 import { showValidation, validateEmail } from '../utilities/utils'
-import { Navigate } from 'react-router'
+import { useNavigate } from 'react-router-dom'
 
 const SignUp = () => {
+
+    const navigate = useNavigate()
 
     const initialState = {
         email: "",
@@ -12,7 +14,7 @@ const SignUp = () => {
     }
 
     const [input, setInput] = useState(initialState)
-    const [submitted, setSubmitted] = useState(false)
+    const [sendOTP, setSendOTP] = useState(false)
     const [showOtp, setShowOtp] = useState(false)
 
     const handleChange = (e) => {
@@ -26,23 +28,31 @@ const SignUp = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        setSubmitted(true)
-        console.log(submitted);
-        if (submitted && input.email !== "" && validateEmail(input.email)) {
+        setSendOTP(true)
+        console.log(sendOTP);
+        if (sendOTP && input.email !== "" && validateEmail(input.email)) {
             console.log("send otp");
             setShowOtp(true)
             console.log(showOtp);
-            // setSubmitted(false)
-            setInput(initialState)
+            setSendOTP(false)
         }
+    }
+
+    const handleSignUP = (e)=>{
+        e.preventDefault()
+        console.log("signUp")
+        setInput(initialState)
+        setShowOtp(false)
+        navigate('/game')
+        
     }
 
     return (
         <div className='login-container'>
-            <form onSubmit={e => handleSubmit(e)}>
+            <form onSubmit={e => showOtp ? handleSignUP(e) : handleSubmit(e)}>
                 <h2 className='login-heading'>SignUp</h2>
-                {submitted && input.email === "" && showValidation(true, "Email required")}
-                {submitted && !validateEmail(input.email) && showValidation(true, "use inapp email")}
+                {sendOTP && input.email === "" && showValidation(true, "Email required")}
+                {sendOTP && !validateEmail(input.email) && showValidation(true, "use inapp email")}
                 <span className="p-float-label">
                     <InputText className='textField' id="email" name='email' value={input.email} onChange={(e) => handleChange(e)} />
                     <label htmlFor="email">Inapp Email</label>
@@ -52,7 +62,8 @@ const SignUp = () => {
                         <InputText className='textField' id="otp" name='otp' value={input.otp} onChange={(e) => handleChange(e)} />
                         <label htmlFor="otp">Enter OTP</label>
                     </span>}
-                <Button className='otp-button' label="Get OTP" onClick={e => handleSubmit(e)} />
+                {!showOtp && <Button className='otp-button' label="Get OTP" onClick={e => handleSubmit(e)} />}
+                {showOtp && <Button className='otp-button' label="Sign Up" onClick={e => handleSignUP(e)} />}
             </form >
         </div>
     )
