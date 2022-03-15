@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import LetterBox from '../components/letterBox'
+import Keyboard from '../components/keyboard'
 
 const Game = () => {
 
@@ -19,8 +20,11 @@ const Game = () => {
           </div>
         )
       })}
+      <div>
+        <Keyboard />
+      </div>
     </div>
   )
 }
 
-export default Game 
+export default Game;

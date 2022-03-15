@@ -1,21 +1,21 @@
-body{
+body {
   margin: 0px;
   padding: 0px;
   box-sizing: border-box;
   font-size: 1.5em;
-  font-family: 'Courier New', Courier, monospace;
+  font-family: "Courier New", Courier, monospace;
   transition: ease-in-out 0.2s;
 }
 
-.app-container{
+.app-container {
   width: 100%;
   height: 100vh;
 }
-.m-10{
+.m-10 {
   margin-bottom: 20px;
 }
 
-.login-container{
+.login-container {
   width: 100%;
   height: 100vh;
   display: flex;
@@ -26,15 +26,14 @@ body{
   background-color: lightyellow;
 }
 
-.textField{
+.textField {
   width: 500px;
 }
 
-
-.login-heading{
+.login-heading {
   margin-bottom: 100px;
 }
-.otp-button{
+.otp-button {
   width: 250px;
 }
 .game-board{
@@ -60,15 +59,41 @@ body{
   display: flex;
   flex-direction: row;
 }
-@media (max-width : 770px) {
-  .textField{
+/*KEYBOARD STYLING*/
+#keyboard-cont {
+  margin: 1rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#keyboard-cont div {
+  display: flex;
+}
+
+.second-row {
+  margin: 0.5rem 0;
+}
+
+.keyboard-button {
+  font-size: 1rem;
+  font-weight: 700;
+  padding: 0.5rem;
+  margin: 0 2px;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+
+@media (max-width: 770px) {
+  .textField {
     width: 250px;
   }
 
-  .login-heading{
+  .login-heading {
     margin-bottom: 80px;
   }
-  .otp-button{
+  .otp-button {
     width: 150px;
   }
 }
+

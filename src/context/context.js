@@ -1,18 +1,18 @@
-import React, {createContext } from 'react'
-import { useNavigate } from 'react-router'
+import React, { createContext } from "react";
+import { useNavigate } from "react-router";
 
-export const ContextData = createContext()
+export const ContextData = createContext();
 
-const StateProvider = ({children}) => {
+const StateProvider = ({ children }) => {
+  const word = "hello";
 
-    const navigate = useNavigate()
+  const navigate = useNavigate();
 
   return (
-      <ContextData.Provider value={{navigate : navigate}}>
-          {children}
-      </ContextData.Provider>
-    
-  )
-}
+    <ContextData.Provider value={{ navigate: navigate, word: word }}>
+      {children}
+    </ContextData.Provider>
+  );
+};
 
-export default StateProvider
+export default StateProvider;
