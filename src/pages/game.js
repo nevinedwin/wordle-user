@@ -16,6 +16,7 @@ const Game = () => {
   const [entries, setEntries] = useState(initalEntry);
   const [currentGuess, setCurrentGuess] = useState(0);
   console.log(entries);
+
   return (
     <div className="game-board">
       <h1>Wordle</h1>
@@ -23,7 +24,7 @@ const Game = () => {
         gusess.map((item) => {
           return (
             <div className="row" key={item}>
-              <LetterBox letter={"y"} />
+              <LetterBox entries={entries[item]} />
             </div>
           );
         })}

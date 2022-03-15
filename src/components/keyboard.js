@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import { keyboardData } from "./keyboarddata";
 import { ContextData } from "../context/context";
 
 export default function Keyboard(props) {
-  const { word } = React.useContext(ContextData);
-  const [currentEntry, setCurrentEntry] = React.useState([]);
+  const data = useContext(ContextData);
+  const word = data.word
+  const [currentEntry, setCurrentEntry] = useState([]);
 
   function updatevalues() {
     props.setEntries((prevEntries) => {
@@ -18,15 +19,19 @@ export default function Keyboard(props) {
   }
 
   function onclickKey(letter) {
-    if (currentEntry.length > -1 && letter === "BACKSPACE") {
-      currentEntry.pop();
-      updatevalues();
-    } else if (letter === "ENTER") {
-      onEntrySubmit();
-    } else if (currentEntry.length < 5) {
-      currentEntry.push(letter);
-      updatevalues();
-      console.log(props.entries);
+    if (props.currentGuess <= 5) {
+      if (currentEntry.length > -1 && letter === "BACKSPACE") {
+        currentEntry.pop();
+        updatevalues();
+      } else if (letter === "ENTER") {
+        onEntrySubmit();
+      } else if (currentEntry.length < 5) {
+        currentEntry.push(letter);
+        updatevalues();
+        console.log(props.entries);
+      }
+    } else {
+      alert("game is over")
     }
   }
 
@@ -62,7 +67,7 @@ export default function Keyboard(props) {
     );
   });
   const thirdrow = keyboardData[2].map((letter) => {
-    if (letter === "BACKSPACE")
+    if (letter === "BACKSPACE") {
       return (
         <button
           className="keyboard-button"
@@ -81,7 +86,19 @@ export default function Keyboard(props) {
             ></path>
           </svg>
         </button>
+      )
+    }
+    else if (letter == "ENTER") {
+      return (
+        <button
+          className="keyboard-button width-100"
+          onClick={() => onclickKey(letter)}
+          key={letter}
+        >
+          {letter}
+        </button>
       );
+    }
     else
       return (
         <button
