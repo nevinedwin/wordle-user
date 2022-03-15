@@ -27,14 +27,14 @@ export default function Keyboard() {
 
   const firstrow = keyboardData[0].map((letter) => {
     return (
-      <button class="keyboard-button" onClick={() => onclickKey(letter)}>
+      <button className="keyboard-button" onClick={() => onclickKey(letter)} key={letter} >
         {letter}
       </button>
     );
   });
   const secondrow = keyboardData[1].map((letter) => {
     return (
-      <button class="keyboard-button" onClick={() => onclickKey(letter)}>
+      <button className="keyboard-button" onClick={() => onclickKey(letter)} key={letter}>
         {letter}
       </button>
     );
@@ -42,7 +42,7 @@ export default function Keyboard() {
   const thirdrow = keyboardData[2].map((letter) => {
     if (letter === "BACKSPACE")
       return (
-        <button class="keyboard-button" onClick={() => onclickKey(letter)}>
+        <button className="keyboard-button" onClick={() => onclickKey(letter)} key={letter}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             height="24"
@@ -58,7 +58,7 @@ export default function Keyboard() {
       );
     else
       return (
-        <button class="keyboard-button" onClick={() => onclickKey(letter)}>
+        <button className="keyboard-button" onClick={() => onclickKey(letter)} key={letter}>
           {letter}
         </button>
       );
@@ -66,9 +66,9 @@ export default function Keyboard() {
 
   return (
     <div id="keyboard-cont">
-      <div class="first-row">{firstrow}</div>
-      <div class="second-row">{secondrow}</div>
-      <div class="third-row">{thirdrow}</div>
+      <div className="first-row">{firstrow}</div>
+      <div className="second-row">{secondrow}</div>
+      <div className="third-row">{thirdrow}</div>
     </div>
   );
 }

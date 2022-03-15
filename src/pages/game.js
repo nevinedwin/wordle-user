@@ -5,8 +5,16 @@ import Keyboard from '../components/keyboard'
 const Game = () => {
 
 
+  const initalEntry = {
+    0: [],
+    1: [],
+    2: [],
+    3: [],
+    4: []
+  }
+
   const [gusess, setGusesses] = useState([1, 2, 3, 4, 5, 6])
-  const [user, setUser] = useState(0)
+  const [entries, setEntries] = useState(initalEntry)
 
 
 
