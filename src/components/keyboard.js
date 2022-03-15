@@ -2,39 +2,61 @@ import React from "react";
 import { keyboardData } from "./keyboarddata";
 import { ContextData } from "../context/context";
 
-export default function Keyboard() {
+export default function Keyboard(props) {
   const { word } = React.useContext(ContextData);
-  let entry = [];
+  const [currentEntry, setCurrentEntry] = React.useState([]);
+
+  function updatevalues() {
+    props.setEntries((prevEntries) => {
+      if (props.currentGuess < 6) {
+        return {
+          ...prevEntries,
+          [props.currentGuess]: currentEntry,
+        };
+      }
+    });
+  }
 
   function onclickKey(letter) {
-    if (entry.length > 0 && letter === "BACKSPACE") {
-      entry.pop();
+    if (currentEntry.length > -1 && letter === "BACKSPACE") {
+      currentEntry.pop();
+      updatevalues();
     } else if (letter === "ENTER") {
       onEntrySubmit();
-    } else if (entry.length < 5) {
-      entry.push(letter);
+    } else if (currentEntry.length < 5) {
+      currentEntry.push(letter);
+      updatevalues();
+      console.log(props.entries);
     }
   }
 
   function onEntrySubmit() {
-    if (entry.length !== 5) {
+    if (currentEntry.length !== 5) {
       alert("Not enough letters");
     } else {
-      console.log(entry);
-      entry = [];
+      props.setCurrentGuess((prevguess) => prevguess + 1);
+      setCurrentEntry([]);
     }
   }
 
   const firstrow = keyboardData[0].map((letter) => {
     return (
-      <button className="keyboard-button" onClick={() => onclickKey(letter)} key={letter} >
+      <button
+        className="keyboard-button"
+        onClick={() => onclickKey(letter)}
+        key={letter}
+      >
         {letter}
       </button>
     );
   });
   const secondrow = keyboardData[1].map((letter) => {
     return (
-      <button className="keyboard-button" onClick={() => onclickKey(letter)} key={letter}>
+      <button
+        className="keyboard-button"
+        onClick={() => onclickKey(letter)}
+        key={letter}
+      >
         {letter}
       </button>
     );
@@ -42,7 +64,11 @@ export default function Keyboard() {
   const thirdrow = keyboardData[2].map((letter) => {
     if (letter === "BACKSPACE")
       return (
-        <button className="keyboard-button" onClick={() => onclickKey(letter)} key={letter}>
+        <button
+          className="keyboard-button"
+          onClick={() => onclickKey(letter)}
+          key={letter}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             height="24"
@@ -58,7 +84,11 @@ export default function Keyboard() {
       );
     else
       return (
-        <button className="keyboard-button" onClick={() => onclickKey(letter)} key={letter}>
+        <button
+          className="keyboard-button"
+          onClick={() => onclickKey(letter)}
+          key={letter}
+        >
           {letter}
         </button>
       );
