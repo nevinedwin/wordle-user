@@ -1,24 +1,26 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { ContextData } from '../context/context'
 import { defaultBoard } from './words'
 
-const Letter = ({ attemptVal }) => {
+const Letter = ({ attemptVal, pos }) => {
 
 
-    const { board } = useContext(ContextData)
+    const { board, word, currAttempt, setDisableLetters } = useContext(ContextData)
 
-    const [letterPosition, setLetterPosition] = useState([0, 1, 2, 3, 4])
+    let letter = board[attemptVal][pos]
 
-    let letter = board[attemptVal]
+    useEffect(() => {
+        if (letter !== "" && !correct && !almost) {
+            setDisableLetters(prev => ([...prev, letter]))
+        }
+    }, [currAttempt.row])
+
+    const correct = word.toUpperCase()[pos] === letter;
+    const almost = !correct && letter !== "" && word.toUpperCase().includes(letter);
+    const letterState = currAttempt.row > attemptVal ? (correct ? "correct" : almost ? "almost" : "error") : ""
 
     return (
-        <>
-            {letterPosition && letterPosition.map(pos => {
-                return (
-                    <div key={pos} className="letter">{letter[pos]}</div>
-                )
-            })}
-        </>
+        <div className="letter" id={letterState}>{letter}</div>
     )
 }
 
