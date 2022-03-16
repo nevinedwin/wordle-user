@@ -10,7 +10,12 @@ const Game = () => {
 
   return (
     <div className="main">
-      <h1 className="heading">Wordle</h1>
+      {/* <h1 className="heading">Wordle</h1> */}
+      <svg className="svg-part">
+        <text x="50%" y="60%" text-anchor="middle" className="heading-wordle"  >
+          Wordle
+        </text>
+      </svg>
       <div className="game">
         <Board />
         {gameOver.gameOver ? <GameOver /> : <Keyboard />}

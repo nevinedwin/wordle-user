@@ -105,12 +105,42 @@ body {
   min-height: 50px;
   margin: 0;
   font-family: Helvetica, Arial, sans-serif;
-  display: grid;
-  place-items: center;
   color: white;
   font-size: 35px;
-  border-bottom: .5px solid rgba(97, 97, 97, 0.6);
 }
+.svg-part{
+  margin: 0;
+  padding-top: 20px;
+  place-items: center;
+  border-bottom: .5px solid rgba(97, 97, 97, 0.6);
+  width: 100%;
+  display: grid;
+  height: 70px;
+}
+.heading-wordle {
+  font-family: Helvetica, Arial, sans-serif;
+  letter-spacing: 5px;
+  stroke: #f0ba45;
+  font-size: 40px;
+  font-weight: 800;
+  stroke-width: 1;
+  animation: textAnimate 3s infinite alternate;
+  
+}
+
+@keyframes textAnimate {
+  0% {
+    stroke-dasharray: 0 50%;
+    stroke-dashoffset:  20%;
+    fill:hsl(189, 94%, 27%)
+
+  }
+  
+  100% {
+    stroke-dasharray: 50% 0;
+    stroke-dashoffstet: -20%;
+    fill: rgba(214, 106, 218,0)
+  }}
 .game{
   flex: .95;
   width: 100vw;
@@ -123,7 +153,7 @@ body {
 }
 .board{
   flex: .85;
-  width: 332px;
+  width: 300px;
   height: 396px;
   display: flex;
   justify-content: center;
@@ -144,7 +174,7 @@ body {
   margin: 3px;
   display: grid;
   place-items: center;
-  font-size: 30px;
+  font-size: 25px;
   font-weight: bolder;
   color: white;
   font-family: Helvetica, Arial, sans-serif;
