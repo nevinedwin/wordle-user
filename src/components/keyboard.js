@@ -1,121 +1,77 @@
-import React, { useContext, useState } from "react";
-import { keyboardData } from "./keyboarddata";
-import { ContextData } from "../context/context";
+import React, { useCallback, useContext, useEffect } from 'react'
+import { ContextData } from '../context/context'
+import Key from './key'
+import { keyboardData } from './keyboarddata'
 
-export default function Keyboard(props) {
-  const data = useContext(ContextData);
-  const word = data.word
-  const [currentEntry, setCurrentEntry] = useState([]);
+const Keyboard = () => {
 
-  function updatevalues() {
-    props.setEntries((prevEntries) => {
-      if (props.currentGuess < 6) {
-        return {
-          ...prevEntries,
-          [props.currentGuess]: currentEntry,
-        };
-      }
-    });
-  }
+  const { onEnterLetter, onDeleteLetter, onSelectLetter } = useContext(ContextData)
 
-  function onclickKey(letter) {
-    if (props.currentGuess <= 5) {
-      if (currentEntry.length > -1 && letter === "BACKSPACE") {
-        currentEntry.pop();
-        updatevalues();
-      } else if (letter === "ENTER") {
-        onEntrySubmit();
-      } else if (currentEntry.length < 5) {
-        currentEntry.push(letter);
-        updatevalues();
-        console.log(props.entries);
-      }
+  const handleKeyBoard = useCallback((event) => {
+    if (event.key === "Enter") {
+      onEnterLetter()
+    } else if (event.key === "Backspace") {
+      onDeleteLetter()
     } else {
-      alert("game is over")
+      keyboardData[0].forEach((key) => {
+        if (event.key.toLowerCase() === key.toLowerCase()) {
+          onSelectLetter(key)
+        }
+      })
+      keyboardData[1].forEach((key) => {
+        if (event.key.toLowerCase() === key.toLowerCase()) {
+          onSelectLetter(key)
+        }
+      })
+      keyboardData[2].forEach((key) => {
+        if (event.key.toLowerCase() === key.toLowerCase()) {
+          onSelectLetter(key)
+        }
+      })
     }
-  }
+  })
 
-  function onEntrySubmit() {
-    if (currentEntry.length !== 5) {
-      alert("Not enough letters");
-    } else {
-      props.setCurrentGuess((prevguess) => prevguess + 1);
-      setCurrentEntry([]);
-    }
-  }
+  useEffect(() => {
+    document.addEventListener("keydown", handleKeyBoard);
 
-  const firstrow = keyboardData[0].map((letter) => {
-    return (
-      <button
-        className="keyboard-button"
-        onClick={() => onclickKey(letter)}
-        key={letter}
-      >
-        {letter}
-      </button>
-    );
-  });
-  const secondrow = keyboardData[1].map((letter) => {
-    return (
-      <button
-        className="keyboard-button"
-        onClick={() => onclickKey(letter)}
-        key={letter}
-      >
-        {letter}
-      </button>
-    );
-  });
-  const thirdrow = keyboardData[2].map((letter) => {
-    if (letter === "BACKSPACE") {
-      return (
-        <button
-          className="keyboard-button"
-          onClick={() => onclickKey(letter)}
-          key={letter}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            height="24"
-            viewBox="0 0 24 24"
-            width="24"
-          >
-            <path
-              fill="var(--color-tone-1)"
-              d="M22 3H7c-.69 0-1.23.35-1.59.88L0 12l5.41 8.11c.36.53.9.89 1.59.89h15c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H7.07L2.4 12l4.66-7H22v14zm-11.59-2L14 13.41 17.59 17 19 15.59 15.41 12 19 8.41 17.59 7 14 10.59 10.41 7 9 8.41 12.59 12 9 15.59z"
-            ></path>
-          </svg>
-        </button>
-      )
+    return () => {
+      document.removeEventListener('keydown', handleKeyBoard);
     }
-    else if (letter == "ENTER") {
-      return (
-        <button
-          className="keyboard-button width-100"
-          onClick={() => onclickKey(letter)}
-          key={letter}
-        >
-          {letter}
-        </button>
-      );
-    }
-    else
-      return (
-        <button
-          className="keyboard-button"
-          onClick={() => onclickKey(letter)}
-          key={letter}
-        >
-          {letter}
-        </button>
-      );
-  });
+  }, [handleKeyBoard])
 
   return (
-    <div id="keyboard-cont">
-      <div className="first-row">{firstrow}</div>
-      <div className="second-row">{secondrow}</div>
-      <div className="third-row">{thirdrow}</div>
+    <div className='keyboard' onKeyDown={handleKeyBoard}>
+      <div className='line1'>{keyboardData[0].map(key => {
+        return (
+          <Key key={key} keyVal={key} />
+        )
+      })}</div>
+      <div className='line2'>{keyboardData[1].map(key => {
+        return (
+          <Key key={key} keyVal={key} />
+        )
+      })}</div>
+      <div className='line3'>
+        <Key keyVal={"ENTER"} bigKey />
+        {keyboardData[2].map(key => {
+          return (
+            <Key key={key} keyVal={key} />
+          )
+        })}
+        <Key keyVal={<svg
+          xmlns="http://www.w3.org/2000/svg"
+          height="24"
+          viewBox="0 0 24 24"
+          width="24"
+        >
+          <path
+            fill="White"
+            d="M22 3H7c-.69 0-1.23.35-1.59.88L0 12l5.41 8.11c.36.53.9.89 1.59.89h15c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H7.07L2.4 12l4.66-7H22v14zm-11.59-2L14 13.41 17.59 17 19 15.59 15.41 12 19 8.41 17.59 7 14 10.59 10.41 7 9 8.41 12.59 12 9 15.59z"
+          ></path>
+        </svg>} bigKey deleteKey />
+      </div>
     </div>
-  );
+  )
 }
+
+export default Keyboard

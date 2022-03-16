@@ -1,12 +1,17 @@
+
+.main{
+  text-align: center;
+  background-color: #121212;
+  width: 100vw;
+  height: 100vh;
+  color: white;
+  display: flex;
+  flex-direction: column;
+}
 body {
   margin: 0px;
   padding: 0px;
-  box-sizing: border-box;
-  font-size: 1.5em;
-  font-family: "Courier New", Courier, monospace;
-  transition: ease-in-out 0.2s;
 }
-
 .app-container {
   width: 100%;
   height: 100vh;
@@ -36,66 +41,90 @@ body {
 .otp-button {
   width: 250px;
 }
-.game-board{
+.heading{
+  flex: .05;
+  width: 100%;
+  min-height: 50px;
+  margin: 0;
+  font-family: Helvetica, Arial, sans-serif;
+  display: grid;
+  place-items: center;
+  color: white;
+  font-size: 35px;
+  border-bottom: .5px solid rgba(97, 97, 97, 0.6);
+}
+.game{
+  flex: .95;
+  width: 100vw;
+  height: calc(100%-60px);
   display: flex;
   align-items: center;
   flex-direction: column;
+  gap: 20px;
+  margin-top: 25px;
 }
-.game-board h1 {
-  margin-bottom: 50px;
-}
-.letter-box {
-  border: 2px solid gray;
-  border-radius: 3px;
-  margin: 2px;
-  font-size: 2.5rem;
-  font-weight: 700;
-  height: 3rem;
-  width: 3rem;
+.board{
+  flex: .85;
+  width: 332px;
+  height: 396px;
   display: flex;
   justify-content: center;
-  align-items: center;
-  text-transform: uppercase;
-  cursor: text;
+  overflow: hidden;
+  flex-direction: column;
 }
+
 .row{
+  flex: 1;
   display: flex;
   flex-direction: row;
+  margin: 5px;
 }
-/*KEYBOARD STYLING*/
-#keyboard-cont {
-  margin: 1rem 0;
+.letter{
+  flex: 1;
+  height: 100%;
+  border: 2px solid rgba(85, 85, 85,0.6);
+  margin: 3px;
+  display: grid;
+  place-items: center;
+  font-size: 30px;
+  font-weight: bolder;
+  color: white;
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+.keyboard{
+  flex: .5;
+  width: 100%;
+  height: 100%;
+}
+
+.line1, .line2, .line3{
+  flex: 33%;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 80px;
+  flex-direction: row;
+  justify-content: center;
+  margin: 5px;
 }
 
-
-#keyboard-cont div {
-  display: flex;
-}
-
-.second-row {
-  margin: 0.5rem 0;
-}
-
-.keyboard-button {
-  font-size: 1.2rem;
-  font-weight: 700;
-  padding: 0.5rem;
-  margin: 0 2px;
-  cursor: pointer;
-  font-family: 'Courier New', Courier, monospace;
-  text-transform: uppercase;
-  border-radius: 5px;
-  width: 50px;
+.key{
+  font-weight: 750;
+  width: 40px;
   height: 50px;
+  margin: 3px;
+  border-radius: 4px;
+  display: grid;
+  place-items: center;
+  font-size: 15px;
+  background-color: grey;
+  color: white;
+  font-family: Helvetica, Arial, sans-serif;
+  cursor: pointer;
 }
 
-.width-100{
-  width: 70px;
+#big{
+  width: 65px;
 }
+
 
 @media (max-width: 770px) {
   .textField {
