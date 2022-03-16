@@ -12,6 +12,9 @@
 body {
   margin: 0px;
   padding: 0px;
+  background-color: #121212;
+  color: white;
+  font-family: Hack, sans-serif;
 }
 .app-container {
   width: 100%;
@@ -28,8 +31,62 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  gap: 10%;
-  background-color: lightyellow;
+  padding-bottom: 200px;
+}
+.text-deco{
+  font-weight: 700;
+  text-align: center;
+  font-size: 40px;
+  font-family: Hack, sans-serif;
+  /* text-transform: uppercase; */
+  background: linear-gradient(90deg, #000, #fff, #000);
+  letter-spacing: 5px;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-repeat: no-repeat;
+  background-size: 80%;
+  animation: shine 5s linear infinite;
+  position: relative;
+}
+
+@keyframes shine {
+  0% {
+    background-position-x: -500%;
+  }
+  100% {
+    background-position-x: 500%;
+  }
+}
+
+
+.login-form{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+  justify-content: center;
+}
+
+.login-form  h1 {
+  margin: 0;
+  grid-column: 1;
+  grid-row: 1;
+  z-index: 1;
+  font-family: Hack, sans-serif;
+  font-size: 2rem;
+  /* text-transform: uppercase; */
+  animation: glow 2s ease-in-out infinite alternate;
+  text-align: center;
+  text-decoration: underline;
+}
+@keyframes glow {
+  from {
+    text-shadow: 0 0 20px #2d9da9;
+  }
+  to {
+    text-shadow: 0 0 30px #34b3c1, 0 0 10px #4dbbc7;
+  }
 }
 
 .textField {
@@ -37,7 +94,7 @@ body {
 }
 
 .login-heading {
-  margin-bottom: 100px;
+  margin-bottom: 20px;
 }
 .otp-button {
   width: 250px;

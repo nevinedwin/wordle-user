@@ -38,19 +38,21 @@ const SignUp = () => {
         }
     }
 
-    const handleSignUP = (e)=>{
+    const handleSignUP = (e) => {
         e.preventDefault()
         console.log("signUp")
         setInput(initialState)
         setShowOtp(false)
         navigate('/game')
-        
+
     }
 
     return (
         <div className='login-container'>
-            <form onSubmit={e => showOtp ? handleSignUP(e) : handleSubmit(e)}>
-                <h2 className='login-heading'>SignUp</h2>
+            <h3 className='text-deco'>InApp TechDay 2022..! </h3>
+            <form onSubmit={e => showOtp ? handleSignUP(e) : handleSubmit(e)} className="login-form">
+                {/* <h2 className='login-heading'>SignUp</h2> */}
+                <h1><span class='one'>S</span><span class='two'>i</span><span class='three'>g</span><span class='four'>n</span> <span class='five'>U</span><span class='six'>p</span></h1>
                 {sendOTP && input.email === "" && showValidation(true, "Email required")}
                 {sendOTP && !validateEmail(input.email) && showValidation(true, "use inapp email")}
                 <span className="p-float-label">

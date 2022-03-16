@@ -12,7 +12,6 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/" element={<SignUp />} />
           <Route path="/game" element={<Game />} />
-          <Route path='/board' element={<Board />} />
         </Routes>
       </StateProvider>
     </Router>
