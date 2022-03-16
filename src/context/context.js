@@ -1,6 +1,8 @@
 import React, { createContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { defaultBoard } from "../components/words";
+import { ManageLocalStorage } from "../services/manageLocalStorage";
+
 
 export const ContextData = createContext();
 
@@ -15,6 +17,18 @@ const StateProvider = ({ children }) => {
   const [almostLetters, setAlmostLetters] = useState([])
   const [gameOver, setGameOver] = useState({ gameOver: false, guessedWord: false })
 
+  useEffect(() => {
+    ManageLocalStorage.get("boardData") && setBoard(ManageLocalStorage.get("boardData"))
+    ManageLocalStorage.get("currAttempt") && setCurrentAttempt(ManageLocalStorage.get('currAttempt'))
+  }, [])
+
+  useEffect(() => {
+    ManageLocalStorage.set("boardData", board)
+  }, [board])
+
+  useEffect(() => {
+    ManageLocalStorage.set("currAttempt", currAttempt)
+  }, [currAttempt])
 
   const onSelectLetter = (keyVal) => {
     if (currAttempt.column > 4) return;

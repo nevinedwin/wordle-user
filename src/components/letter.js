@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { ContextData } from '../context/context'
-import { defaultBoard } from './words'
+import { ManageLocalStorage } from '../services/manageLocalStorage'
+
 
 const Letter = ({ attemptVal, pos }) => {
 
@@ -10,13 +11,15 @@ const Letter = ({ attemptVal, pos }) => {
     let letter = board[attemptVal][pos]
 
     useEffect(() => {
-        if (letter !== "") {
-            if (correct) {
-                setCorrectLetters(prev => ([...prev, letter]))
-            } else if (almost) {
-                setAlmostLetters(prev => ([...prev, letter]))
-            } else {
-                setDisableLetters(prev => ([...prev, letter]))
+        if (currAttempt.row > attemptVal) {
+            if (letter !== "") {
+                if (correct) {
+                    setCorrectLetters(prev => ([...prev, letter]))
+                } else if (almost) {
+                    setAlmostLetters(prev => ([...prev, letter]))
+                } else {
+                    setDisableLetters(prev => ([...prev, letter]))
+                }
             }
         }
     }, [currAttempt.row])

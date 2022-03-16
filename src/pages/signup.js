@@ -29,7 +29,6 @@ const SignUp = () => {
     const handleSubmit = (e) => {
         e.preventDefault()
         setSendOTP(true)
-        console.log(sendOTP);
         if (sendOTP && input.email !== "" && validateEmail(input.email)) {
             console.log("send otp");
             setShowOtp(true)
@@ -52,9 +51,9 @@ const SignUp = () => {
             <h3 className='text-deco'>InApp TechDay 2022..! </h3>
             <form onSubmit={e => showOtp ? handleSignUP(e) : handleSubmit(e)} className="login-form">
                 {/* <h2 className='login-heading'>SignUp</h2> */}
-                <h1><span class='one'>S</span><span class='two'>i</span><span class='three'>g</span><span class='four'>n</span> <span class='five'>U</span><span class='six'>p</span></h1>
-                {sendOTP && input.email === "" && showValidation(true, "Email required")}
-                {sendOTP && !validateEmail(input.email) && showValidation(true, "use inapp email")}
+                <h1><span className='one'>S</span><span className='two'>i</span><span className='three'>g</span><span className='four'>n</span> <span className='five'>U</span><span className='six'>p</span></h1>
+                {(sendOTP && input.email === "" && showValidation(true, "Email required")) || (sendOTP && !validateEmail(input.email) && showValidation(true, "use inapp email"))}
+                {/* {sendOTP && !validateEmail(input.email) && showValidation(true, "use inapp email")} */}
                 <span className="p-float-label">
                     <InputText className='textField' id="email" name='email' value={input.email} onChange={(e) => handleChange(e)} />
                     <label htmlFor="email">Inapp Email</label>
