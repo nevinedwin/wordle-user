@@ -5,7 +5,7 @@ import { keyboardData } from './keyboarddata'
 
 const Keyboard = () => {
 
-  const { onEnterLetter, onDeleteLetter, onSelectLetter, disableLetters } = useContext(ContextData)
+  const { onEnterLetter, onDeleteLetter, onSelectLetter, disableLetters, correctLetters, almostLetters } = useContext(ContextData)
 
   const handleKeyBoard = useCallback((event) => {
     if (event.key === "Enter") {
@@ -43,19 +43,19 @@ const Keyboard = () => {
     <div className='keyboard' onKeyDown={handleKeyBoard}>
       <div className='line1'>{keyboardData[0].map(key => {
         return (
-          <Key key={key} keyVal={key} disabled={disableLetters.includes(key)} />
+          <Key key={key} keyVal={key} disabled={disableLetters.includes(key)} corr={correctLetters.includes(key)} alm={almostLetters.includes(key)} />
         )
       })}</div>
       <div className='line2'>{keyboardData[1].map(key => {
         return (
-          <Key key={key} keyVal={key} disabled={disableLetters.includes(key)} />
+          <Key key={key} keyVal={key} disabled={disableLetters.includes(key)} corr={correctLetters.includes(key)} alm={almostLetters.includes(key)} />
         )
       })}</div>
       <div className='line3'>
         <Key keyVal={"ENTER"} bigKey />
         {keyboardData[2].map(key => {
           return (
-            <Key key={key} keyVal={key} disabled={disableLetters.includes(key)} />
+            <Key key={key} keyVal={key} disabled={disableLetters.includes(key)} corr={correctLetters.includes(key)} alm={almostLetters.includes(key)} />
           )
         })}
         <Key keyVal={<svg

@@ -5,13 +5,19 @@ import { defaultBoard } from './words'
 const Letter = ({ attemptVal, pos }) => {
 
 
-    const { board, word, currAttempt, setDisableLetters } = useContext(ContextData)
+    const { board, word, currAttempt, setDisableLetters, setCorrectLetters, setAlmostLetters } = useContext(ContextData)
 
     let letter = board[attemptVal][pos]
 
     useEffect(() => {
-        if (letter !== "" && !correct && !almost) {
-            setDisableLetters(prev => ([...prev, letter]))
+        if (letter !== "") {
+            if (correct) {
+                setCorrectLetters(prev => ([...prev, letter]))
+            } else if (almost) {
+                setAlmostLetters(prev => ([...prev, letter]))
+            } else {
+                setDisableLetters(prev => ([...prev, letter]))
+            }
         }
     }, [currAttempt.row])
 

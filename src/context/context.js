@@ -11,6 +11,8 @@ const StateProvider = ({ children }) => {
   const [board, setBoard] = useState(defaultBoard)
   const [currAttempt, setCurrentAttempt] = useState({ row: 0, column: 0 })
   const [disableLetters, setDisableLetters] = useState([])
+  const [correctLetters, setCorrectLetters] = useState([])
+  const [almostLetters, setAlmostLetters] = useState([])
   const [gameOver, setGameOver] = useState({ gameOver: false, guessedWord: false })
 
 
@@ -80,6 +82,10 @@ const StateProvider = ({ children }) => {
         disableLetters,
         gameOver,
         setGameOver,
+        correctLetters,
+        setCorrectLetters,
+        almostLetters,
+        setAlmostLetters
       }}>
       {children}
     </ContextData.Provider>
