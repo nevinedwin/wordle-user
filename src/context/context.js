@@ -7,7 +7,7 @@ import { ManageLocalStorage } from "../services/manageLocalStorage";
 export const ContextData = createContext();
 
 const StateProvider = ({ children }) => {
-  const word = "HELLO";
+  const word = "IMAGE";
 
   const navigate = useNavigate();
   const [board, setBoard] = useState(defaultBoard)
