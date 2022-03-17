@@ -1,14 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { ContextData } from '../context/context'
-import { ManageLocalStorage } from '../services/manageLocalStorage'
 
 
-const Letter = ({ attemptVal, pos }) => {
+const Letter = ({ attemptVal, pos, letter, sty }) => {
 
 
-    const { board, word, currAttempt, setDisableLetters, setCorrectLetters, setAlmostLetters } = useContext(ContextData)
-
-    let letter = board[attemptVal][pos]
+    const { word, currAttempt, setDisableLetters, setCorrectLetters, setAlmostLetters } = useContext(ContextData)
 
     useEffect(() => {
         if (currAttempt.row > attemptVal) {
@@ -26,10 +23,8 @@ const Letter = ({ attemptVal, pos }) => {
 
     const correct = word.toUpperCase()[pos] === letter;
     const almost = !correct && letter !== "" && word.toUpperCase().includes(letter);
-    const letterState = currAttempt.row > attemptVal ? (correct ? "correct" : almost ? "almost" : "error") : ""
-
     return (
-        <div className="letter" id={letterState}>{letter}</div>
+        <div className="letter" id={sty}>{letter}</div>
     )
 }
 
