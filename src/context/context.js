@@ -20,11 +20,16 @@ const StateProvider = ({ children }) => {
   useEffect(() => {
     ManageLocalStorage.get("boardData") && setBoard(ManageLocalStorage.get("boardData"))
     ManageLocalStorage.get("currAttempt") && setCurrentAttempt(ManageLocalStorage.get('currAttempt'))
+    ManageLocalStorage.get('gameOver') && setGameOver(ManageLocalStorage.get('gameOver'))
   }, [])
 
   useEffect(() => {
     ManageLocalStorage.set("boardData", board)
   }, [board])
+
+  useEffect(() => {
+    ManageLocalStorage.set('gameOver', gameOver)
+  }, [gameOver])
 
   useEffect(() => {
     ManageLocalStorage.set("currAttempt", currAttempt)
