@@ -1,17 +1,25 @@
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import SignUp from "./pages/signup";
-import Game from "./pages/game";
 import StateProvider from "./context/context";
-import Board from './components/board';
+import { routes } from './core/routes';
 
 function App() {
   return (
     <Router>
       <StateProvider>
         <Routes>
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/" element={<SignUp />} />
-          <Route path="/game" element={<Game />} />
+          {
+            routes.map(route => {
+              return (
+                <Route
+                  key={route.path}
+                  path={route.path}
+                  // element={<ProtectedRoutes path={route.path} component={route.component} />}
+                  element={<route.component />}
+                />
+              )
+            })
+          }
         </Routes>
       </StateProvider>
     </Router>

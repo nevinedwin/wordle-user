@@ -16,6 +16,7 @@ const StateProvider = ({ children }) => {
   const [correctLetters, setCorrectLetters] = useState([])
   const [almostLetters, setAlmostLetters] = useState([])
   const [gameOver, setGameOver] = useState({ gameOver: false, guessedWord: false })
+  const [signUpFlag, setSignUpFlag] = useState(false)
 
   useEffect(() => {
     ManageLocalStorage.get("boardData") && setBoard(ManageLocalStorage.get("boardData"))
@@ -24,16 +25,17 @@ const StateProvider = ({ children }) => {
   }, [])
 
   useEffect(() => {
-    ManageLocalStorage.set("boardData", board)
-  }, [board])
+    signUpFlag && ManageLocalStorage.set("boardData", board)
+  }, [board, signUpFlag])
+
 
   useEffect(() => {
-    ManageLocalStorage.set('gameOver', gameOver)
-  }, [gameOver])
+    signUpFlag && ManageLocalStorage.set('gameOver', gameOver)
+  }, [gameOver, signUpFlag])
 
   useEffect(() => {
-    ManageLocalStorage.set("currAttempt", currAttempt)
-  }, [currAttempt])
+    signUpFlag && ManageLocalStorage.set("currAttempt", currAttempt)
+  }, [currAttempt, signUpFlag])
 
   const onSelectLetter = (keyVal) => {
     if (currAttempt.column > 4) return;
@@ -104,7 +106,8 @@ const StateProvider = ({ children }) => {
         correctLetters,
         setCorrectLetters,
         almostLetters,
-        setAlmostLetters
+        setAlmostLetters,
+        setSignUpFlag,
       }}>
       {children}
     </ContextData.Provider>
