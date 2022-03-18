@@ -3,87 +3,92 @@ import { useNavigate } from "react-router";
 import { defaultBoard } from "../components/words";
 import { ManageLocalStorage } from "../services/manageLocalStorage";
 
-
 export const ContextData = createContext();
 
 const StateProvider = ({ children }) => {
-  const word = "IMAGE";
+  const word = "HELLO";
 
   const navigate = useNavigate();
-  const [board, setBoard] = useState(defaultBoard)
-  const [currAttempt, setCurrentAttempt] = useState({ row: 0, column: 0 })
-  const [disableLetters, setDisableLetters] = useState([])
-  const [correctLetters, setCorrectLetters] = useState([])
-  const [almostLetters, setAlmostLetters] = useState([])
-  const [gameOver, setGameOver] = useState({ gameOver: false, guessedWord: false })
+  const [board, setBoard] = useState(defaultBoard);
+  const [currAttempt, setCurrentAttempt] = useState({ row: 0, column: 0 });
+  const [disableLetters, setDisableLetters] = useState([]);
+  const [correctLetters, setCorrectLetters] = useState([]);
+  const [almostLetters, setAlmostLetters] = useState([]);
+  const [gameOver, setGameOver] = useState({
+    gameOver: false,
+    guessedWord: false,
+  });
 
   useEffect(() => {
-    ManageLocalStorage.get("boardData") && setBoard(ManageLocalStorage.get("boardData"))
-    ManageLocalStorage.get("currAttempt") && setCurrentAttempt(ManageLocalStorage.get('currAttempt'))
-    ManageLocalStorage.get('gameOver') && setGameOver(ManageLocalStorage.get('gameOver'))
-  }, [])
+    ManageLocalStorage.get("boardData") &&
+      setBoard(ManageLocalStorage.get("boardData"));
+    ManageLocalStorage.get("currAttempt") &&
+      setCurrentAttempt(ManageLocalStorage.get("currAttempt"));
+    ManageLocalStorage.get("gameOver") &&
+      setGameOver(ManageLocalStorage.get("gameOver"));
+  }, []);
 
   useEffect(() => {
-    ManageLocalStorage.set("boardData", board)
-  }, [board])
+    ManageLocalStorage.set("boardData", board);
+  }, [board]);
 
   useEffect(() => {
-    ManageLocalStorage.set('gameOver', gameOver)
-  }, [gameOver])
+    ManageLocalStorage.set("gameOver", gameOver);
+  }, [gameOver]);
 
   useEffect(() => {
-    ManageLocalStorage.set("currAttempt", currAttempt)
-  }, [currAttempt])
+    ManageLocalStorage.set("currAttempt", currAttempt);
+  }, [currAttempt]);
 
   const onSelectLetter = (keyVal) => {
     if (currAttempt.column > 4) return;
-    const newBoard = [...board]
-    newBoard[currAttempt.row][currAttempt.column] = keyVal
-    setBoard(newBoard)
-    setCurrentAttempt(prev => ({
+    const newBoard = [...board];
+    newBoard[currAttempt.row][currAttempt.column] = keyVal;
+    setBoard(newBoard);
+    setCurrentAttempt((prev) => ({
       ...prev,
-      column: prev.column + 1
-    }))
-  }
+      column: prev.column + 1,
+    }));
+  };
 
   const onDeleteLetter = () => {
     if (currAttempt.column === 0) return;
-    const newBoard = [...board]
-    newBoard[currAttempt.row][currAttempt.column - 1] = ""
-    setBoard(newBoard)
-    setCurrentAttempt(prev => ({
+    const newBoard = [...board];
+    newBoard[currAttempt.row][currAttempt.column - 1] = "";
+    setBoard(newBoard);
+    setCurrentAttempt((prev) => ({
       ...prev,
-      column: prev.column - 1
-    }))
-  }
+      column: prev.column - 1,
+    }));
+  };
 
   const onEnterLetter = () => {
     if (currAttempt.column !== 5) return;
-    let currentWord = ""
+    let currentWord = "";
     for (let i = 0; i < 5; i++) {
-      currentWord += board[currAttempt.row][i]
+      currentWord += board[currAttempt.row][i];
     }
 
-    setCurrentAttempt(prev => ({
+    setCurrentAttempt((prev) => ({
       row: prev.row + 1,
-      column: 0
-    }))
+      column: 0,
+    }));
 
     if (currentWord.toLowerCase() === word.toLowerCase()) {
-      setGameOver(prev => ({
+      setGameOver((prev) => ({
         gameOver: true,
-        guessedWord: true
-      }))
+        guessedWord: true,
+      }));
       return;
     }
 
     if (currAttempt.row === 5) {
-      setGameOver(prev => ({
+      setGameOver((prev) => ({
         gameOver: true,
-        guessedWord: false
-      }))
+        guessedWord: false,
+      }));
     }
-  }
+  };
 
   return (
     <ContextData.Provider
@@ -104,8 +109,9 @@ const StateProvider = ({ children }) => {
         correctLetters,
         setCorrectLetters,
         almostLetters,
-        setAlmostLetters
-      }}>
+        setAlmostLetters,
+      }}
+    >
       {children}
     </ContextData.Provider>
   );

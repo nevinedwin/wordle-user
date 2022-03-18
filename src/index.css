@@ -346,3 +346,31 @@ body {
     width: 150px;
   }
 }
+
+.modal {
+  color: whitesmoke;
+  background-color: #3a393c;
+  margin: 2rem;
+  padding: 2rem;
+}
+
+.modal--close {
+  margin-bottom: 5rem;
+}
+
+.modal--button {
+  font-size: 1.2em;
+  color: #2d9da9;
+  background-color: transparent;
+  outline: 0;
+  border: 1px solid #2d9da9;
+  border-radius: 5px;
+  padding: 1rem;
+  margin: 1rem;
+}
+
+.modal--button:hover {
+  transition: 0.4s;
+  color: white;
+  border: 1px solid white;
+}
