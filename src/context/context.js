@@ -42,7 +42,7 @@ const StateProvider = ({ children }) => {
       updateUser({
         email: email,
         completed: gameOver.gameOver,
-        gameStatus: gameOver.guessedWord,
+        gameStatus: gameOver.guessedWord ? "Win" : !gameOver.gameOver && !gameOver.guessedWord ? "Not Yet Finished" : "Lose",
         attempt: currAttempt.row,
         score: gameOver.guessedWord === "Won" ? 1 : 0,
         wordArray: board,
