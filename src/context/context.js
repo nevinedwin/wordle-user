@@ -1,16 +1,19 @@
 import React, { createContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import { defaultBoard } from "../components/words";
 import { ManageLocalStorage } from "../services/manageLocalStorage";
+import { getUserDetails, getWord, updateUser } from "../services/siteServices";
+import { decodeWord } from "../utilities/utils";
 
 
 export const ContextData = createContext();
 
 const StateProvider = ({ children }) => {
-  const word = "IMAGE";
+  // const word = "DEBUG";
 
   const navigate = useNavigate();
-  const [board, setBoard] = useState(defaultBoard)
+  const [word, setWord] = useState("DEBUG")
+  const [email, setEmail] = useState("")
+  const [board, setBoard] = useState([])
   const [currAttempt, setCurrentAttempt] = useState({ row: 0, column: 0 })
   const [disableLetters, setDisableLetters] = useState([])
   const [correctLetters, setCorrectLetters] = useState([])
@@ -19,23 +22,45 @@ const StateProvider = ({ children }) => {
   const [signUpFlag, setSignUpFlag] = useState(false)
 
   useEffect(() => {
-    ManageLocalStorage.get("boardData") && setBoard(ManageLocalStorage.get("boardData"))
-    ManageLocalStorage.get("currAttempt") && setCurrentAttempt(ManageLocalStorage.get('currAttempt'))
-    ManageLocalStorage.get('gameOver') && setGameOver(ManageLocalStorage.get('gameOver'))
+    // ManageLocalStorage.get("boardData") && setBoard(ManageLocalStorage.get("boardData"))
+    // ManageLocalStorage.get("currAttempt") && setCurrentAttempt(ManageLocalStorage.get('currAttempt'))
+    // ManageLocalStorage.get('gameOver') && setGameOver(ManageLocalStorage.get('gameOver'))
+    signUpFlag && setEmail(ManageLocalStorage.get('email'))
+    signUpFlag && getUserDetails(ManageLocalStorage.get('email')).then(res => {
+      console.log(res)
+      signUpFlag && getWord().then(res => {
+        let decodedWord = decodeWord(res.data.result)
+        setWord(decodedWord)
+        console.log(decodedWord)
+      })
+    })
   }, [])
 
   useEffect(() => {
-    signUpFlag && ManageLocalStorage.set("boardData", board)
-  }, [board, signUpFlag])
+    // signUpFlag && ManageLocalStorage.set("boardData", board)
+    signUpFlag &&
+      updateUser({
+        email: email,
+        completed: gameOver.gameOver,
+        gameStatus: gameOver.guessedWord,
+        attempt: currAttempt.row,
+        score: gameOver.guessedWord === "Won" ? 1 : 0,
+        wordArray: board,
+        gameOver: gameOver,
+        currAttempt: currAttempt
+      }).then(res => {
+        console.log(res.data)
+      })
+  }, [board, gameOver, currAttempt, signUpFlag, email])
 
 
-  useEffect(() => {
-    signUpFlag && ManageLocalStorage.set('gameOver', gameOver)
-  }, [gameOver, signUpFlag])
+  // useEffect(() => {
+  //   signUpFlag && ManageLocalStorage.set('gameOver', gameOver)
+  // }, [gameOver, signUpFlag])
 
-  useEffect(() => {
-    signUpFlag && ManageLocalStorage.set("currAttempt", currAttempt)
-  }, [currAttempt, signUpFlag])
+  // useEffect(() => {
+  //   signUpFlag && ManageLocalStorage.set("currAttempt", currAttempt)
+  // }, [currAttempt, signUpFlag])
 
   const onSelectLetter = (keyVal) => {
     if (currAttempt.column > 4) return;
@@ -108,6 +133,8 @@ const StateProvider = ({ children }) => {
         almostLetters,
         setAlmostLetters,
         setSignUpFlag,
+        setEmail,
+        signUpFlag
       }}>
       {children}
     </ContextData.Provider>

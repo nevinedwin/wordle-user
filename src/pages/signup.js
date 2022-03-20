@@ -1,9 +1,9 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { InputText } from 'primereact/inputtext'
 import { Button } from 'primereact/button'
 import { showValidation, validateEmail } from '../utilities/utils'
 import { useNavigate } from 'react-router-dom'
-import { sendOtp } from '../services/siteServices'
+import { sendOtp, verifyEmail } from '../services/siteServices'
 import { ManageLocalStorage } from '../services/manageLocalStorage'
 import { ContextData } from '../context/context'
 
@@ -11,19 +11,23 @@ const SignUp = () => {
 
     const navigate = useNavigate()
 
-    const { setSignUpFlag } = useContext(ContextData)
+    const { setSignUpFlag, setCurrentAttempt, setBoard, setGameOver, setEmail, signUpFlag } = useContext(ContextData)
 
     const initialState = {
         email: "",
         otp: "",
-        enteredOTP: "",
-        signUpToken: ""
+        otpError: false
     }
 
     const [input, setInput] = useState(initialState)
     const [sendOTP, setSendOTP] = useState(false)
     const [showOtp, setShowOtp] = useState(false)
     const [signUp, setSignUp] = useState(false)
+
+    // useEffect(() => {
+    //     !showOtp && ManageLocalStorage.delete("email")
+    //     !signUpFlag && ManageLocalStorage.delete("userToken")
+    // }, [showOtp, signUpFlag])
 
     const handleChange = (e) => {
         e.preventDefault()
@@ -41,11 +45,8 @@ const SignUp = () => {
             console.log("send otp");
             sendOtp({ email: input.email }).then(res => {
                 console.log(res.data.result)
-                setInput(prev => ({
-                    ...prev,
-                    enteredOTP: res.data.result.otp,
-                    signUpToken: res.data.result.token
-                }))
+                ManageLocalStorage.set("email", input.email)
+                setEmail(input.email)
             })
             setShowOtp(true)
             console.log(showOtp);
@@ -56,17 +57,42 @@ const SignUp = () => {
     const handleSignUP = (e) => {
         e.preventDefault()
         setSignUp(true)
-        if (input.otp === input.enteredOTP) {
-            ManageLocalStorage.set("userToken", input.signUpToken)
-            setSignUpFlag(true)
-            console.log("signUp")
-            setInput(initialState)
-            setShowOtp(false)
-            setSignUp(false)
-            navigate('/game')
-        } else {
-            navigate('/signup')
-        }
+        verifyEmail({ email: input.email, otp: input.otp })
+            .then(res => {
+                console.log(res);
+                if (res.status === 200) {
+                    if (res.data.success) {
+                        const { token, gameDetails } = res.data.result
+                        ManageLocalStorage.set("userToken", token)
+                        setCurrentAttempt(gameDetails.currAttempt)
+                        setBoard(gameDetails.wordArray)
+                        setGameOver(gameDetails.gameOver)
+                        setSignUpFlag(true)
+                        console.log("signUp")
+                        setInput(initialState)
+                        setShowOtp(false)
+                        setSignUp(false)
+                        navigate('/game')
+                    } else {
+                        setInput(prev => ({
+                            ...prev,
+                            otpError: true
+                        }))
+                        navigate('/signup')
+                    }
+                }
+                else if (res.status === 401) {
+                    setInput(prev => ({
+                        ...prev,
+                        otpError: true
+                    }))
+                    navigate('/signup')
+                }
+                else {
+                    console.log("........", res.status);
+                    navigate('/signup')
+                }
+            })
 
     }
 
@@ -80,7 +106,7 @@ const SignUp = () => {
                     <InputText className='textField' id="email" name='email' value={input.email} onChange={(e) => handleChange(e)} />
                     <label htmlFor="email">Inapp Email</label>
                 </span>
-                {signUp && input.otp !== "" && input.otp !== input.enteredOTP && showValidation(true, "Wrong OTP")}
+                {signUp && input.otp !== "" && input.otpError && showValidation(true, "Wrong OTP")}
                 {showOtp &&
                     <span className="p-float-label">
                         <InputText className='textField' id="otp" name='otp' value={input.otp} onChange={(e) => handleChange(e)} />
