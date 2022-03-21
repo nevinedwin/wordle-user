@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { InputText } from 'primereact/inputtext'
 import { Button } from 'primereact/button'
 import { showValidation, validateEmail } from '../utilities/utils'
@@ -11,7 +11,7 @@ const SignUp = () => {
 
     const navigate = useNavigate()
 
-    const { setSignUpFlag, setCurrentAttempt, setBoard, setGameOver, setEmail, signUpFlag } = useContext(ContextData)
+    const { setSignUpFlag, setCurrentAttempt, setBoard, setGameOver, setEmail } = useContext(ContextData)
 
     const initialState = {
         email: "",
@@ -24,10 +24,6 @@ const SignUp = () => {
     const [showOtp, setShowOtp] = useState(false)
     const [signUp, setSignUp] = useState(false)
 
-    // useEffect(() => {
-    //     !showOtp && ManageLocalStorage.delete("email")
-    //     !signUpFlag && ManageLocalStorage.delete("userToken")
-    // }, [showOtp, signUpFlag])
 
     const handleChange = (e) => {
         e.preventDefault()
@@ -41,15 +37,12 @@ const SignUp = () => {
     const handleSubmit = (e) => {
         e.preventDefault()
         setSendOTP(true)
-        if (sendOTP && input.email !== "" && validateEmail(input.email)) {
-            console.log("send otp");
+        if (input.email !== "" && validateEmail(input.email)) {
             sendOtp({ email: input.email }).then(res => {
-                console.log(res.data.result)
-                ManageLocalStorage.set("email", input.email)
+                localStorage.setItem("email", input.email)
                 setEmail(input.email)
             })
             setShowOtp(true)
-            console.log(showOtp);
             setSendOTP(false)
         }
     }
@@ -59,7 +52,6 @@ const SignUp = () => {
         setSignUp(true)
         verifyEmail({ email: input.email, otp: input.otp })
             .then(res => {
-                console.log(res);
                 if (res.status === 200) {
                     if (res.data.success) {
                         const { token, gameDetails } = res.data.result
@@ -67,8 +59,8 @@ const SignUp = () => {
                         setCurrentAttempt(gameDetails.currAttempt)
                         setBoard(gameDetails.wordArray)
                         setGameOver(gameDetails.gameOver)
+                        ManageLocalStorage.set("signUpFlag", true)
                         setSignUpFlag(true)
-                        console.log("signUp")
                         setInput(initialState)
                         setShowOtp(false)
                         setSignUp(false)
@@ -89,7 +81,6 @@ const SignUp = () => {
                     navigate('/signup')
                 }
                 else {
-                    console.log("........", res.status);
                     navigate('/signup')
                 }
             })

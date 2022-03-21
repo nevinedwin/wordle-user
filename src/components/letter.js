@@ -21,8 +21,8 @@ const Letter = ({ attemptVal, pos, letter, sty }) => {
         }
     }, [currAttempt.row])
 
-    const correct = word.toUpperCase()[pos] === letter;
-    const almost = !correct && letter !== "" && word.toUpperCase().includes(letter);
+    const correct = word[pos] === letter;
+    const almost = !correct && letter !== "" && word.includes(letter);
     return (
         <div className="letter" id={sty}>{letter}</div>
     )

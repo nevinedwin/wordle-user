@@ -1,5 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { ContextData } from '../context/context'
+import { ManageLocalStorage } from '../services/manageLocalStorage'
+import { getUserDetails } from '../services/siteServices'
 import Letter from './letter'
 
 const Board = () => {
@@ -62,7 +64,7 @@ const Board = () => {
 
     return (
         <div className='board'>
-            {attemptVal && attemptVal.map(ele => {
+            {board.length > 0 && attemptVal && attemptVal.map(ele => {
                 return (
                     <div className='row' key={ele}>
                         <Letter attemptVal={ele} pos={0} letter={board[ele][0]} sty={tempStyleArr[ele][0]} />

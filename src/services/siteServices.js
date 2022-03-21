@@ -10,8 +10,8 @@ export const verifyEmail = async (body) => {
     return axios.post("http://15.206.92.254:3000/users/emailVerify", body)
 }
 
-export const getWord = async () => {
-    return axios.get("http://15.206.92.254:3000/users/getWord")
+export const getWord = async (date) => {
+    return axios.get(`http://15.206.92.254:3000/users/getWord?date=${date}`)
 }
 
 export const updateUser = (body) => {

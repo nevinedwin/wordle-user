@@ -6,12 +6,24 @@ import { ContextData } from "../context/context";
 import Rules from "../components/rules";
 import Statistics from "../components/statistics";
 import { FaChartBar, FaRegQuestionCircle } from "react-icons/fa";
+import { FiLogOut } from "react-icons/fi";
+import { ManageLocalStorage } from "../services/manageLocalStorage";
+import { useNavigate } from "react-router-dom";
 
 const Game = () => {
   const { gameOver } = useContext(ContextData);
 
+  const navigate = useNavigate()
+
   const [showRules, setShowRules] = useState(false);
   const [showStat, setShowStat] = useState(false);
+
+  const handleLogout = () => {
+    localStorage.setItem('signUpFlag', false)
+    ManageLocalStorage.delete('email')
+    ManageLocalStorage.delete('userToken')
+    navigate('/signup')
+  }
 
   return (
     <div className="main">
@@ -35,6 +47,13 @@ const Game = () => {
             onClick={() => setShowRules((prev) => !prev)}
           >
             <FaRegQuestionCircle />
+          </h1>
+          <h1
+            className="query"
+            id={showRules ? "bg-change" : ""}
+            onClick={handleLogout}
+          >
+            <FiLogOut />
           </h1>
         </div>
       </div>
