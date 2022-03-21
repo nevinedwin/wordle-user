@@ -338,13 +338,30 @@ body {
 .modal {
   color: whitesmoke;
   background-color: #3a393c;
-  margin: 2rem;
-  padding: 2rem;
+  /* margin: 5rem; */
+  /* padding: 5rem; */
+  margin-bottom: 4rem;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  width: 25rem;
+  height: 25rem;
+  background-color: rgba(37, 37, 37);
 }
-
+.pop-head{
+  flex: .5;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 .modal--close {
-  margin-bottom: 5rem;
   cursor: pointer;
+  font-size: 30px;
+  margin-bottom: 5rem;
+}
+.pop-head h3{
+  margin-left: 40%;
+  letter-spacing: 1px;
 }
 
 .modal--button {
@@ -364,6 +381,59 @@ body {
   border: 1px solid white;
 }
 
+.gameOver{
+  flex: 1.5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  gap: 2rem;
+  padding: 0;
+  margin: 0;
+
+}
+
+.border-right{
+  padding-right: 5rem;
+  border-right: 2px solid white;
+}
+.gameOver span{
+  color: yellow;
+}
+.gameOver h4, .gameOver h3, .gameOver  h5{
+  margin: 0;
+}
+.status{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+.footer{
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 3rem;
+  margin-bottom: 10rem;
+}
+.tech-wordle{
+  margin: 0;
+}
+.main-topic{
+  font-size: 28px;
+  font-weight: 200;
+}
+.next-time{
+  margin: 0;
+}
+.main-des{
+  font-size: 12px;
+  font-weight: 400;
+}
 @media (max-width: 770px) {
   .textField {
     width: 250px;

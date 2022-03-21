@@ -1,9 +1,11 @@
 import React, { createContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
+import { toast, ToastContainer } from "react-toastify";
 import { defaultArray } from "../components/defaultArray";
 import { ManageLocalStorage } from "../services/manageLocalStorage";
 import { getUserDetails, getWord, updateUser } from "../services/siteServices";
 import { decodeWord } from "../utilities/utils";
+import 'react-toastify/dist/ReactToastify.css';
 
 export const ContextData = createContext();
 
@@ -22,36 +24,27 @@ const StateProvider = ({ children }) => {
 
   useEffect(() => {
     signUpFlag && localStorage.getItem('email') && setEmail(localStorage.getItem('email'))
-    signUpFlag && getUserDetails(localStorage.getItem('email')).then(res => {
-      setBoard(res.data.result.wordArray)
-      setCurrentAttempt(res.data.result.currAttempt)
-      setGameOver(res.data.result.gameOver)
-    })
-
-  }, [])
-
-  useEffect(() => {
-    signUpFlag && board !== [] && gameOver && currAttempt &&
-      email !== "" && updateUser({
-        email: email,
-        completed: gameOver.gameOver,
-        gameStatus: gameOver.guessedWord ? "Win" : !gameOver.gameOver && !gameOver.guessedWord ? "Not Yet Finished" : "Lose",
-        attempt: currAttempt.row,
-        score: gameOver.guessedWord === "Won" ? 1 : 0,
-        wordArray: board,
-        gameOver: gameOver,
-        currAttempt: currAttempt
-      })
     const dateTime = new Date().toLocaleString("en-US", {
       timeZone:
         "Asia/Kolkata"
     });
     const date = dateTime.split(',')[0]
-    signUpFlag && getWord(date).then(res => {
+    getWord(date).then(res => {
       let decodedWord = decodeWord(res.data.result)
       setWord(decodedWord.toUpperCase())
+    }, error => {
+      toast.error("There is no Word for Today")
+      navigate('/signup')
     })
-  }, [board, gameOver, currAttempt, signUpFlag, email])
+    signUpFlag && word && getUserDetails(localStorage.getItem('email')).then(res => {
+      setBoard(res.data.result.wordArray)
+      setCurrentAttempt(res.data.result.currAttempt)
+      setGameOver(res.data.result.gameOver)
+    }, error => {
+      navigate('/signup')
+    })
+
+  }, [])
 
 
   const onSelectLetter = (keyVal) => {
@@ -93,7 +86,6 @@ const StateProvider = ({ children }) => {
         gameOver: true,
         guessedWord: true,
       }));
-      return;
     }
 
     if (currAttempt.row === 5) {
@@ -102,6 +94,19 @@ const StateProvider = ({ children }) => {
         guessedWord: false,
       }));
     }
+    updateUser({
+      email: email,
+      completed: gameOver.gameOver,
+      gameStatus: gameOver.guessedWord ? "Win" : !gameOver.gameOver && !gameOver.guessedWord ? "Not Yet Finished" : "Lose",
+      attempt: currAttempt.row,
+      score: gameOver.guessedWord === "Won" ? 1 : 0,
+      wordArray: board,
+      gameOver: { gameOver: currentWord.toLowerCase() === word.toLowerCase() || currAttempt.row === 5 ? true : false, guessedWord: currentWord.toLowerCase() === word.toLowerCase() ? true : false },
+      currAttempt: { row: currAttempt.row + 1, column: 0 }
+    }, error => {
+      navigate('/game')
+      console.log("erroe")
+    })
   };
 
   return (
@@ -130,6 +135,15 @@ const StateProvider = ({ children }) => {
         setWord
       }}>
       {children}
+      <ToastContainer
+        position="top-center"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={true}
+        closeOnClick
+        rtl={false}
+        draggable
+      />
     </ContextData.Provider>
   );
 };

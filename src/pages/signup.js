@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import { sendOtp, verifyEmail } from '../services/siteServices'
 import { ManageLocalStorage } from '../services/manageLocalStorage'
 import { ContextData } from '../context/context'
+import { toast } from 'react-toastify'
 
 const SignUp = () => {
 
@@ -15,8 +16,7 @@ const SignUp = () => {
 
     const initialState = {
         email: "",
-        otp: "",
-        otpError: false
+        otp: ""
     }
 
     const [input, setInput] = useState(initialState)
@@ -52,39 +52,24 @@ const SignUp = () => {
         setSignUp(true)
         verifyEmail({ email: input.email, otp: input.otp })
             .then(res => {
-                if (res.status === 200) {
-                    if (res.data.success) {
-                        const { token, gameDetails } = res.data.result
-                        ManageLocalStorage.set("userToken", token)
-                        setCurrentAttempt(gameDetails.currAttempt)
-                        setBoard(gameDetails.wordArray)
-                        setGameOver(gameDetails.gameOver)
-                        ManageLocalStorage.set("signUpFlag", true)
-                        setSignUpFlag(true)
-                        setInput(initialState)
-                        setShowOtp(false)
-                        setSignUp(false)
-                        navigate('/game')
-                    } else {
-                        setInput(prev => ({
-                            ...prev,
-                            otpError: true
-                        }))
-                        navigate('/signup')
-                    }
-                }
-                else if (res.status === 401) {
-                    setInput(prev => ({
-                        ...prev,
-                        otpError: true
-                    }))
-                    navigate('/signup')
-                }
-                else {
-                    navigate('/signup')
-                }
-            })
+                if (res.data.success) {
+                    const { token, gameDetails } = res.data.result
+                    ManageLocalStorage.set("userToken", token)
+                    setCurrentAttempt(gameDetails.currAttempt)
+                    setBoard(gameDetails.wordArray)
+                    setGameOver(gameDetails.gameOver)
+                    ManageLocalStorage.set("signUpFlag", true)
+                    setSignUpFlag(true)
+                    setInput(initialState)
+                    setShowOtp(false)
+                    setSignUp(false)
+                    navigate('/game')
+                } else {
 
+                }
+            }, error => {
+                toast.error("Wrong OTP")
+            })
     }
 
     return (
@@ -97,7 +82,6 @@ const SignUp = () => {
                     <InputText className='textField' id="email" name='email' value={input.email} onChange={(e) => handleChange(e)} />
                     <label htmlFor="email">Inapp Email</label>
                 </span>
-                {signUp && input.otp !== "" && input.otpError && showValidation(true, "Wrong OTP")}
                 {showOtp &&
                     <span className="p-float-label">
                         <InputText className='textField' id="otp" name='otp' value={input.otp} onChange={(e) => handleChange(e)} />

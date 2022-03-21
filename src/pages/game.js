@@ -9,9 +9,10 @@ import { FaChartBar, FaRegQuestionCircle } from "react-icons/fa";
 import { FiLogOut } from "react-icons/fi";
 import { ManageLocalStorage } from "../services/manageLocalStorage";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Game = () => {
-  const { gameOver } = useContext(ContextData);
+  const { gameOver, setWord, setDisableLetters, setCorrectLetters, setAlmostLetters } = useContext(ContextData);
 
   const navigate = useNavigate()
 
@@ -22,7 +23,11 @@ const Game = () => {
     localStorage.setItem('signUpFlag', false)
     ManageLocalStorage.delete('email')
     ManageLocalStorage.delete('userToken')
+    setDisableLetters([])
+    setCorrectLetters([])
+    setAlmostLetters([])
     navigate('/signup')
+    toast.success("successfully Logged out")
   }
 
   return (
