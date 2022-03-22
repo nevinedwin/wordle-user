@@ -6,7 +6,7 @@ const Rules = ({ setShowRules }) => {
             <div className='title-para'>
                 <div className='back-container'>
                     <h2>How To Play..? </h2>
-                    <h2 className='back' onClick={() => { setShowRules(false) }}>X</h2>
+                    <h2 className='back' onClick={() => { setShowRules(false) }}>&times;</h2>
                 </div>
                 <ul>
                     <li className='list-item'>Only one word is available in each day</li>

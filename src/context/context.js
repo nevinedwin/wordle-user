@@ -32,7 +32,7 @@ const StateProvider = ({ children }) => {
     getWord(date).then(res => {
       let decodedWord = decodeWord(res.data.result)
       setWord(decodedWord.toUpperCase())
-      getUserDetails(localStorage.getItem('email')).then(res => {
+      getUserDetails(localStorage.getItem('email'), localStorage.getItem('userToken')).then(res => {
         setBoard(res.data.result.wordArray)
         setCurrentAttempt(res.data.result.currAttempt)
         setGameOver(res.data.result.gameOver)
@@ -97,12 +97,14 @@ const StateProvider = ({ children }) => {
     updateUser({
       email: email,
       completed: gameOver.gameOver,
-      gameStatus: gameOver.guessedWord ? "Win" : !gameOver.gameOver && !gameOver.guessedWord ? "Not Yet Finished" : "Lose",
-      attempt: currAttempt.row,
+      gameStatus: currentWord.toLowerCase() === word.toLowerCase() ? "Win" : currAttempt.row === 5 ? "Lose" : "Not Yet Finished",
+      attempt: currAttempt.row + 1,
       score: gameOver.guessedWord === "Won" ? 1 : 0,
       wordArray: board,
       gameOver: { gameOver: currentWord.toLowerCase() === word.toLowerCase() || currAttempt.row === 5 ? true : false, guessedWord: currentWord.toLowerCase() === word.toLowerCase() ? true : false },
       currAttempt: { row: currAttempt.row + 1, column: 0 }
+    }, localStorage.getItem('userToken')).then(res => {
+
     }, error => {
       navigate('/game')
       console.log("erroe")

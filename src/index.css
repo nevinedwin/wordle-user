@@ -109,6 +109,7 @@ body {
   display: flex;
   flex-direction: row;
   align-items: center;
+  gap: 8px;
 }
 
 .query {
@@ -151,7 +152,7 @@ body {
 .svg-part {
   margin: 0;
   padding-top: 20px;
-  padding-left: 80px;
+  padding-left: 145px;
   place-items: center;
   width: 100%;
   display: grid;
@@ -285,10 +286,13 @@ body {
   width: 100%;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   padding-right: 5%;
 }
 .back {
   cursor: pointer;
+  font-size: 50px;
+  font-weight: 200;
 }
 
 .list-item {

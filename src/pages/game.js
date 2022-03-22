@@ -39,13 +39,13 @@ const Game = () => {
           </text>
         </svg>
         <div className="icon-list">
-          <h1
+          {/* <h1
             className="stat"
             id={showStat ? "bg-change" : ""}
             onClick={() => setShowStat((prev) => !prev)}
           >
             <FaChartBar />
-          </h1>
+          </h1> */}
           <h1
             className="query"
             id={showRules ? "bg-change" : ""}
@@ -55,7 +55,6 @@ const Game = () => {
           </h1>
           <h1
             className="query"
-            id={showRules ? "bg-change" : ""}
             onClick={handleLogout}
           >
             <FiLogOut />
