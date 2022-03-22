@@ -32,15 +32,15 @@ const StateProvider = ({ children }) => {
     getWord(date).then(res => {
       let decodedWord = decodeWord(res.data.result)
       setWord(decodedWord.toUpperCase())
+      getUserDetails(localStorage.getItem('email')).then(res => {
+        setBoard(res.data.result.wordArray)
+        setCurrentAttempt(res.data.result.currAttempt)
+        setGameOver(res.data.result.gameOver)
+      }, error => {
+        navigate('/signup')
+      })
     }, error => {
       toast.error("There is no Word for Today")
-      navigate('/signup')
-    })
-    signUpFlag && word && getUserDetails(localStorage.getItem('email')).then(res => {
-      setBoard(res.data.result.wordArray)
-      setCurrentAttempt(res.data.result.currAttempt)
-      setGameOver(res.data.result.gameOver)
-    }, error => {
       navigate('/signup')
     })
 
