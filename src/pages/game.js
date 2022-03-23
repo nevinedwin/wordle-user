@@ -35,7 +35,7 @@ const Game = () => {
       <div className="Navbar">
         <svg className="svg-part">
           <text x="50%" y="60%" textAnchor="middle" className="heading-wordle">
-            Wordle
+            Tech-Wordle
           </text>
         </svg>
         <div className="icon-list">
