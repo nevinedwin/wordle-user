@@ -90,7 +90,7 @@ const SignUp = () => {
 
     return (
         <div className='login-container'>
-            <h3 className='text-deco'>InApp TechDay v7 </h3>
+            <h3 className='text-deco'>InApp TechDay v17 </h3>
             <form onSubmit={e => showOtp ? handleSignUP(e) : handleSubmit(e)} className="login-form">
                 <h1><span className='one'>S</span><span className='two'>i</span><span className='three'>g</span><span className='four'>n</span> <span className='five'>U</span><span className='six'>p</span></h1>
                 {(sendOTP && input.email !== "" && input.email === "" && showValidation(true, "Email required")) || (sendOTP && !validateEmail(input.email) && showValidation(true, "use inapp email"))}
