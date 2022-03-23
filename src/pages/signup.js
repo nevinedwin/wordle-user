@@ -3,7 +3,7 @@ import { InputText } from 'primereact/inputtext'
 import { Button } from 'primereact/button'
 import { showValidation, validateEmail } from '../utilities/utils'
 import { useNavigate } from 'react-router-dom'
-import { sendOtp, verifyEmail } from '../services/siteServices'
+import { getWord, sendOtp, verifyEmail } from '../services/siteServices'
 import { ManageLocalStorage } from '../services/manageLocalStorage'
 import { ContextData } from '../context/context'
 import { toast } from 'react-toastify'
@@ -12,7 +12,7 @@ const SignUp = () => {
 
     const navigate = useNavigate()
 
-    const { setSignUpFlag, setCurrentAttempt, setBoard, setGameOver, setEmail } = useContext(ContextData)
+    const { setSignUpFlag, setCurrentAttempt, setBoard, setGameOver, setEmail, setDisableLetters, setCorrectLetters, setAlmostLetters } = useContext(ContextData)
 
     const initialState = {
         email: "",
@@ -52,7 +52,12 @@ const SignUp = () => {
         setSignUp(true)
         verifyEmail({ email: input.email, otp: input.otp })
             .then(res => {
-                if (res.data.success) {
+                const dateTime = new Date().toLocaleString("en-US", {
+                    timeZone:
+                        "Asia/Kolkata"
+                });
+                const date = dateTime.split(',')[0]
+                getWord(date).then(resp => {
                     const { token, gameDetails } = res.data.result
                     ManageLocalStorage.set("userToken", token)
                     setCurrentAttempt(gameDetails.currAttempt)
@@ -64,9 +69,20 @@ const SignUp = () => {
                     setShowOtp(false)
                     setSignUp(false)
                     navigate('/game')
-                } else {
-
-                }
+                }, error => {
+                    localStorage.setItem('signUpFlag', false)
+                    ManageLocalStorage.delete('email')
+                    ManageLocalStorage.delete('userToken')
+                    setDisableLetters([])
+                    setCorrectLetters([])
+                    setAlmostLetters([])
+                    navigate('/signup')
+                    setShowOtp(false)
+                    setSignUp(false)
+                    setSignUpFlag(false)
+                    setInput(initialState)
+                    toast.warn("Game Starts after 10 Am")
+                })
             }, error => {
                 toast.error("Wrong OTP")
             })
@@ -74,7 +90,7 @@ const SignUp = () => {
 
     return (
         <div className='login-container'>
-            <h3 className='text-deco'>InApp TechDay 2022..! </h3>
+            <h3 className='text-deco'>InApp TechDay v7 </h3>
             <form onSubmit={e => showOtp ? handleSignUP(e) : handleSubmit(e)} className="login-form">
                 <h1><span className='one'>S</span><span className='two'>i</span><span className='three'>g</span><span className='four'>n</span> <span className='five'>U</span><span className='six'>p</span></h1>
                 {(sendOTP && input.email !== "" && input.email === "" && showValidation(true, "Email required")) || (sendOTP && !validateEmail(input.email) && showValidation(true, "use inapp email"))}

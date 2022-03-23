@@ -40,7 +40,14 @@ const StateProvider = ({ children }) => {
         navigate('/signup')
       })
     }, error => {
-      toast.error("There is no Word for Today")
+      localStorage.setItem('signUpFlag', false)
+      ManageLocalStorage.delete('email')
+      ManageLocalStorage.delete('userToken')
+      setDisableLetters([])
+      setCorrectLetters([])
+      setAlmostLetters([])
+      setSignUpFlag(false)
+      toast.warn("Game Starts after 10 Am")
       navigate('/signup')
     })
 

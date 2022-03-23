@@ -48,7 +48,8 @@ const GameOver = () => {
                     </div>
                     <div className="footer">
                         <h3 className="tech-wordle">Next Tech-Wordle</h3>
-                        <h1 className="next-time">Tommorow 9 AM</h1>
+                        <h1 className="next-time">Tommorow 10
+                            <span className="am">AM</span></h1>
                     </div>
                 </div>
             </Popup>
