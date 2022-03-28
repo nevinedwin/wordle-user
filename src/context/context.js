@@ -93,9 +93,7 @@ const StateProvider = ({ children }) => {
         gameOver: true,
         guessedWord: true,
       }));
-    }
-
-    if (currAttempt.row === 5) {
+    } else if (currAttempt.row === 5) {
       setGameOver((prev) => ({
         gameOver: true,
         guessedWord: false,
@@ -114,7 +112,7 @@ const StateProvider = ({ children }) => {
 
     }, error => {
       navigate('/game')
-      console.log("erroe")
+      console.log("error")
     })
   };
 
