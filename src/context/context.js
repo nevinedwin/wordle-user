@@ -47,7 +47,7 @@ const StateProvider = ({ children }) => {
       setCorrectLetters([])
       setAlmostLetters([])
       setSignUpFlag(false)
-      toast.warn("Game Starts after 10 Am")
+      toast.warn("Game Starts after 10 AM")
       navigate('/signup')
     })
 

@@ -81,7 +81,7 @@ const SignUp = () => {
                     setSignUp(false)
                     setSignUpFlag(false)
                     setInput(initialState)
-                    toast.warn("Game Starts after 10 Am")
+                    toast.warn("Game Starts after 10 AM")
                 })
             }, error => {
                 toast.error("Wrong OTP")
