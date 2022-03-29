@@ -32,8 +32,8 @@ const StateProvider = ({ children }) => {
     getWord(date).then(res => {
       let hiddenWord = decodeHiddenWord(res.data.result)
       setWord(hiddenWord.toUpperCase())
-      JSON.parse(localStorage.getItem('signUpFlag')) && getUserDetails(localStorage.getItem('email'), localStorage.getItem('userToken')).
-        then(res => {
+      JSON.parse(localStorage.getItem('signUpFlag')) && getUserDetails(localStorage.getItem('email'), localStorage.getItem('userToken'))
+        .then(res => {
           setBoard(res.data.result.wordArray)
           setCurrentAttempt(res.data.result.currAttempt)
           setGameOver(res.data.result.gameOver)
@@ -45,10 +45,11 @@ const StateProvider = ({ children }) => {
           setCorrectLetters([])
           setAlmostLetters([])
           setSignUpFlag(false)
-          toast.warn("Game Starts after 10 AM")
+          toast.warn("Please Login again")
           navigate('/signup')
         })
     }, error => {
+      console.log({ error })
       localStorage.setItem('signUpFlag', false)
       ManageLocalStorage.delete('email')
       ManageLocalStorage.delete('userToken')

@@ -3,7 +3,7 @@ import { InputText } from 'primereact/inputtext'
 import { Button } from 'primereact/button'
 import { showValidation, validateEmail } from '../utilities/utils'
 import { useNavigate } from 'react-router-dom'
-import { getWord, sendOtp, verifyEmail } from '../services/siteServices'
+import { getWord, sendOtpCall, verifyEmail } from '../services/siteServices'
 import { ManageLocalStorage } from '../services/manageLocalStorage'
 import { ContextData } from '../context/context'
 import { toast } from 'react-toastify'
@@ -38,7 +38,7 @@ const SignUp = () => {
         e.preventDefault()
         setSendOTP(true)
         if (input.email !== "" && validateEmail(input.email)) {
-            sendOtp({ email: input.email }).then(res => {
+            sendOtpCall({ email: input.email }).then(res => {
                 localStorage.setItem("email", input.email)
                 setEmail(input.email)
             })
