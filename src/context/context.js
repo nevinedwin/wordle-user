@@ -4,7 +4,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { defaultArray } from "../components/defaultArray";
 import { ManageLocalStorage } from "../services/manageLocalStorage";
 import { getUserDetails, getWord, updateUser } from "../services/siteServices";
-import { decodeWord } from "../utilities/utils";
+import { decodeHiddenWord } from "../utilities/utils";
 import 'react-toastify/dist/ReactToastify.css';
 
 export const ContextData = createContext();
@@ -30,15 +30,24 @@ const StateProvider = ({ children }) => {
     });
     const date = dateTime.split(',')[0]
     getWord(date).then(res => {
-      let decodedWord = decodeWord(res.data.result)
-      setWord(decodedWord.toUpperCase())
-      getUserDetails(localStorage.getItem('email'), localStorage.getItem('userToken')).then(res => {
-        setBoard(res.data.result.wordArray)
-        setCurrentAttempt(res.data.result.currAttempt)
-        setGameOver(res.data.result.gameOver)
-      }, error => {
-        navigate('/signup')
-      })
+      let hiddenWord = decodeHiddenWord(res.data.result)
+      setWord(hiddenWord.toUpperCase())
+      JSON.parse(localStorage.getItem('signUpFlag')) && getUserDetails(localStorage.getItem('email'), localStorage.getItem('userToken')).
+        then(res => {
+          setBoard(res.data.result.wordArray)
+          setCurrentAttempt(res.data.result.currAttempt)
+          setGameOver(res.data.result.gameOver)
+        }, error => {
+          localStorage.setItem('signUpFlag', false)
+          ManageLocalStorage.delete('email')
+          ManageLocalStorage.delete('userToken')
+          setDisableLetters([])
+          setCorrectLetters([])
+          setAlmostLetters([])
+          setSignUpFlag(false)
+          toast.warn("Game Starts after 10 AM")
+          navigate('/signup')
+        })
     }, error => {
       localStorage.setItem('signUpFlag', false)
       ManageLocalStorage.delete('email')
